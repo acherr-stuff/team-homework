@@ -9,16 +9,9 @@ import {DataItem} from "../../../model/data-types";
 })
 export class DataPageComponent implements OnInit {
 
-  generalData: DataItem[] = [];
-  constructor(
-      private httpService : HttpService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.httpService.getGeneralData();
-    this.httpService.dataSubject$.subscribe(val=> {
-      this.generalData = val as DataItem[];
-    });
 
   }
 
