@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class HttpService {
   ) { }
 
   getGeneralData() {
-    this.http.get('http://127.0.0.1:8081/test_data_layer1.json').subscribe(value => {
+    this.http.get(`http://${environment.url}:${environment.port}/test_data_layer1.json`).subscribe(value => {
       console.log("data: ", value);
     });
   }
