@@ -18,7 +18,16 @@ export class HttpService {
 
 
     getGeneralData() {
-        this.http.get(`http://${environment.url}:${environment.port}/test_data_layer0.json`)
+        // this.http.get(`http://${environment.url}:${environment.port}/test_data_layer0.json`)
+        //     .pipe(
+        //         map(x => JSON.stringify(x)),
+        //         map(x => JSON.parse(x)),
+        //     )
+        //     .subscribe((data) => {
+        //         console.log(data);
+        //         this.dataSubject$.next(data);
+        //     });
+        this.http.get(`http://${environment.url}:${environment.port}/data`)
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
