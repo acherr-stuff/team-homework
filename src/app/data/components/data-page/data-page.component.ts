@@ -16,18 +16,10 @@ export class DataPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpService.getGeneralData();
-    this.httpService.dataSubject.subscribe(val=> {
+    this.httpService.dataSubject$.subscribe(val=> {
       this.generalData = val as DataItem[];
-      console.log(this.generalData);
     });
 
-    //this.generalData = this.httpService.dataSubject.;
-     // this.httpService.getGeneralData();
-     // //this.generalData =  this.httpService.generalData$;
-     // this.httpService.generalData$.subscribe(val => {
-     //     this.generalData = val;
-     // })
-     //console.log(this.generalData);
   }
 
 }
