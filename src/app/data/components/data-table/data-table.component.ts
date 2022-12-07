@@ -3,6 +3,7 @@ import {DataItem, DataItemDetailed} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import { Subscription } from 'rxjs';
 
 // export interface PeriodicElement {
 //   name: string;
@@ -48,6 +49,8 @@ export class DataTableComponent implements OnInit {
     expandedOffice!: DataItemDetailed[] | null;
    expandedStorages!: DataItemDetailed[] | null;
 
+   sub?: Subscription;
+
   constructor(
       private httpService: HttpService
   ) {
@@ -70,7 +73,7 @@ export class DataTableComponent implements OnInit {
   ngOnInit(): void {
     this.httpService.getGeneralData();
    // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
-    this.httpService.dataSubject$.subscribe(val => {
+    this.sub = this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
       this.dataSource.data = val;
 
@@ -78,19 +81,23 @@ export class DataTableComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
 
-  CollectData(res: Array<DataItem>): Map<number, DataItem[]> 
+
+  CollectData(res: Array<DataItem>): Map<number, number[]> 
     {
-        const data: Map<number, DataItem[]> = new Map();
+        const data: Map<number, number[]> = new Map();
         res.forEach((object: DataItem) => {
 
             if (!data.has(object.office_id)) {
-                data.set(object.office_id, [object]);
+                data.set(object.office_id, [object.wh_id]);
                 
             } else {
                 const graphData = data.get(object.office_id);
                 if (graphData) {
-                    graphData.push(object)
+                    graphData.push(object.wh_id)
                 }
             }
         });

@@ -1,4 +1,7 @@
-<app-graph *ngFor="let graph of graphData"
+<cdk-virtual-scroll-viewport itemSize="5" class="virtual-scroll">
+    <app-graph *ngFor="let graph of graphData"
 class="graphs"
 [graphData]="graph"
 ></app-graph>
+
+</cdk-virtual-scroll-viewport>

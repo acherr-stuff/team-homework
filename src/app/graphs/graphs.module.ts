@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GraphsPageComponent } from './components/graphs-page/graphs-page.component';
 import {GraphsRoutingModule} from "./graphs-routing.module";
 import { GraphComponent } from './components/graph/graph.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 
@@ -13,7 +14,8 @@ import { GraphComponent } from './components/graph/graph.component';
   ],
   imports: [
     CommonModule,
-    GraphsRoutingModule
+    GraphsRoutingModule,
+    ScrollingModule
   ]
 })
 export class GraphsModule { }
