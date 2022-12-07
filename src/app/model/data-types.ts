@@ -3,3 +3,9 @@ export interface DataItem {
     wh_id: number,
     qty: number
 }
+
+export interface DataItemDetailed {
+    wh_id: number,
+    qty: number,
+    dt_date: string
+}

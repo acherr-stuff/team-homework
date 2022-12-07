@@ -18,7 +18,16 @@ export class HttpService {
 
 
     getGeneralData() {
-        this.http.get(`http://${environment.url}:${environment.port}/test_data_layer0.json`)
+        // this.http.get(`http://${environment.url}:${environment.port}/test_data_layer0.json`)
+        //     .pipe(
+        //         map(x => JSON.stringify(x)),
+        //         map(x => JSON.parse(x)),
+        //     )
+        //     .subscribe((data) => {
+        //         console.log(data);
+        //         this.dataSubject$.next(data);
+        //     });
+        this.http.get(`http://${environment.url}:${environment.port}/data`)
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
@@ -28,4 +37,26 @@ export class HttpService {
                 this.dataSubject$.next(data);
             });
     }
+
+    // getDetailedDataById(param: string, id: number) {
+    //    return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
+    //         .pipe(
+    //             map(x => JSON.stringify(x)),
+    //             map(x => JSON.parse(x)),
+    //         )
+    //         .subscribe((data) => {
+    //             console.log("detailed", data);
+    //            // this.dataSubject$.next(data);
+    //         });
+    // }
+
+    getDetailedDataById(param: string, id: number) {
+        return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
+            .pipe(
+                map(x => JSON.stringify(x)),
+                map(x => JSON.parse(x)),
+            )
+
+    }
+
 }

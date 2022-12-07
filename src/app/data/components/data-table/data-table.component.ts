@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DataItem} from "../../../model/data-types";
+import {DataItem, DataItemDetailed} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -42,15 +42,31 @@ export class DataTableComponent implements OnInit {
     public dataSource = new MatTableDataSource([]);
     columnsToDisplay = ["office_id", "wh_id", "qty"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-    expandedElement!: DataItem | null;
+    expandedElement!: DataItemDetailed[] | null;
+    expandedStorages!: DataItemDetailed[] | null;
 
   constructor(
       private httpService: HttpService
   ) {
   }
 
+  getExpandedElement(param: string, id: number) {
+    // this.httpService.getDetailedDataById(param, id).subscribe(val => {
+    //   this.expandedElement = val;
+    //   console.log("expanded val: ",   this.expandedElement);
+    //   //return this.e
+    // });
+    //return  this.httpService.getDetailedDataById(param, id);
+
+  }
+
+  clearStorages() {
+    this.expandedStorages = null;
+  }
+
   ngOnInit(): void {
     this.httpService.getGeneralData();
+   // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
       this.dataSource.data = val;
