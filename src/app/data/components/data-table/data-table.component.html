@@ -15,7 +15,7 @@
 <!--                </button>-->
                 <button class="expand-btn" mat-icon-button aria-label="expand row"
                         (click)="(expandedOffice === element) ? clearStorages() :
-                        getExpandedStorages('office_id', element.office_id);
+                        getExpandedStorages('wh_id', element.wh_id);
                         (expandedOffice = (expandedOffice === element) ? null : element);
                         $event.stopPropagation()">
                     <mat-icon *ngIf="expandedOffice !== element">keyboard_arrow_down</mat-icon>

@@ -9,3 +9,21 @@ export interface DataItemDetailed {
     qty: number,
     dt_date: string
 }
+
+export interface GraphItem extends DataItem {
+    dt_date: string
+}
+
+
+//GRAPHS TYPES
+export interface ChartDataInterface {
+    title: string;
+    label: string[];
+    datasets: ChartDatasetsInterface[];
+}
+
+export interface ChartDatasetsInterface {
+    label: string;
+    data: number[];
+    borderWidth: number;
+}

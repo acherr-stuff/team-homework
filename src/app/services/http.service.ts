@@ -59,4 +59,17 @@ export class HttpService {
 
     }
 
+
+    getDetailedData() {
+        this.http.get(`http://${environment.url}:${environment.port}/data_detailed`)
+            .pipe(
+                map(x => JSON.stringify(x)),
+                map(x => JSON.parse(x)),
+            )
+            .subscribe((data) => {
+                console.log(data);
+                this.dataSubject$.next(data);
+            });
+    }
+
 }

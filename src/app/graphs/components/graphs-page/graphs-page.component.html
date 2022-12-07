@@ -1,1 +1,4 @@
-<p>graphs-page works!</p>
+<app-graph *ngFor="let graph of graphData"
+class="graphs"
+[graphData]="graph"
+></app-graph>

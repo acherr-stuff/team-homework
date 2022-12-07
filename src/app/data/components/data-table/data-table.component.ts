@@ -71,7 +71,30 @@ export class DataTableComponent implements OnInit {
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
       this.dataSource.data = val;
-    });
 
+      this.CollectData(this.dataSource.data)
+    });
   }
+
+
+  CollectData(res: Array<DataItem>): Map<number, DataItem[]> 
+    {
+        const data: Map<number, DataItem[]> = new Map();
+        res.forEach((object: DataItem) => {
+
+            if (!data.has(object.office_id)) {
+                data.set(object.office_id, [object]);
+                
+            } else {
+                const graphData = data.get(object.office_id);
+                if (graphData) {
+                    graphData.push(object)
+                }
+            }
+        });
+        console.log(data)
+        return data;
+    }
+    
+
 }
