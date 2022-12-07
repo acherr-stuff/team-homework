@@ -6,5 +6,5 @@
     routerLinkActive="active"
         [routerLink]="links.link">
     <mat-icon>{{links.icon}}</mat-icon>
-    <span>{{links.name}}</span>    
+    <span  *ngIf="menuStatus">{{links.name}}</span>    
 </div>

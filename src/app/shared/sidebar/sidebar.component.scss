@@ -13,11 +13,12 @@
     flex-direction: row;
     align-items: center;
     column-gap: 10px;
-    padding: 12px;
+    padding: 4px;
 
     .menu{
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
+        font-size: 35px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -36,10 +37,17 @@
     justify-content: center;
     gap:5px;
     min-width: 50px;
-    width: 200px;
+    width: 250px;
     height: 60px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 18px;
+
+    mat-icon{
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+    }
 
     &.active{
         mat-icon{
