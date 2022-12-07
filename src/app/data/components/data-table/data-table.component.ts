@@ -39,18 +39,26 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 export class DataTableComponent implements OnInit {
 
   generalData: DataItem[] = [];
-    public dataSource = new MatTableDataSource([]);
+    public dataSource = new MatTableDataSource<number>([]);
+    //public dataSource1 = new MatTableDataSounrce([]);
     public storagesDataSource = new MatTableDataSource([]);
     columnsToDisplay = ["office_id"];
     storagesColumnsToDisplay = [ "wh_id", "dt_date" ,"qty"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     expandedElement!: DataItemDetailed[] | null;
     expandedOffice!: DataItemDetailed[] | null;
-   expandedStorages!: DataItemDetailed[] | null;
+    expandedStorages!: DataItemDetailed[] | null;
+    expandedOffice1!: number[] | null;
 
   constructor(
       private httpService: HttpService
   ) {
+    this.httpService.getGeneralData();
+    this.httpService.dataSubject$.subscribe(val => {
+      this.generalData = val as DataItem[];
+      this.dataSource.data = Array.from(this.httpService.сollectData(val).keys());
+      console.log("office sorted: ", this.dataSource.data);
+    });
   }
 
   getExpandedStorages(param: string, id: number) {
@@ -58,6 +66,7 @@ export class DataTableComponent implements OnInit {
         .subscribe(val => {
       this.expandedStorages = val;
       this.storagesDataSource = val;
+     // let parsedWh = Array.from()
       console.log("expanded val: ",   this.expandedStorages);
     });
   }
@@ -68,35 +77,35 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpService.getGeneralData();
-   // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
-    this.httpService.dataSubject$.subscribe(val => {
-      this.generalData = val as DataItem[];
-      this.dataSource.data = val;
-
-      this.CollectData(this.dataSource.data)
-    });
+    // this.httpService.getGeneralData();
+    // this.httpService.dataSubject$.subscribe(val => {
+    //   this.generalData = val as DataItem[];
+    //   //this.dataSource.data = val;
+    //   this.dataSource.data = Array.from(this.httpService.сollectData(val).keys());
+    //   console.log("office sorted: ", this.dataSource.data);
+    //  // this.httpService.сollectData(this.dataSource.data)
+    // });
   }
-
-
-  CollectData(res: Array<DataItem>): Map<number, DataItem[]> 
-    {
-        const data: Map<number, DataItem[]> = new Map();
-        res.forEach((object: DataItem) => {
-
-            if (!data.has(object.office_id)) {
-                data.set(object.office_id, [object]);
-                
-            } else {
-                const graphData = data.get(object.office_id);
-                if (graphData) {
-                    graphData.push(object)
-                }
-            }
-        });
-        console.log("map data", data)
-        return data;
-    }
-    
+  //
+  //
+  // сollectData(res: Array<DataItem>): Map<number, DataItem[]>
+  //   {
+  //       const data: Map<number, DataItem[]> = new Map();
+  //       res.forEach((object: DataItem) => {
+  //
+  //           if (!data.has(object.office_id)) {
+  //               data.set(object.office_id, [object]);
+  //
+  //           } else {
+  //               const graphData = data.get(object.office_id);
+  //               if (graphData) {
+  //                   graphData.push(object)
+  //               }
+  //           }
+  //       });
+  //       console.log("map data", data)
+  //       return data;
+  //   }
+  //
 
 }

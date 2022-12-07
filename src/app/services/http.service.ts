@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {DataItem} from "../model/data-types";
+import {DataItem, DataItemDetailed} from "../model/data-types";
 import {BehaviorSubject, map, Observable, Subject} from "rxjs";
 
 @Injectable({
@@ -49,5 +49,28 @@ export class HttpService {
                 this.dataSubject$.next(data);
             });
     }
+
+    сollectData(res: Array<DataItem>): Map<number, DataItem[]>
+    {
+        const data: Map<number, DataItem[]> = new Map();
+        res.forEach((object: DataItem) => {
+
+            if (!data.has(object.office_id)) {
+                data.set(object.office_id, [object]);
+
+            } else {
+                const graphData = data.get(object.office_id);
+                if (graphData) {
+                    graphData.push(object)
+                }
+            }
+        });
+        console.log("map data", data)
+        return data;
+    }
+
+    // collectExpandedData(res: Array<DataItemDetailed>): Map<number, DataItemDetailed> {
+    //     const data: Map<number, DataItem[]> = new Map();
+    // }
 
 }
