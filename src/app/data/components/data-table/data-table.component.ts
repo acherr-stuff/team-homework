@@ -23,17 +23,20 @@ export class DataTableComponent implements OnInit {
 
   generalData: DataItem[] = [];
     public dataSource = new MatTableDataSource<number>([]);
-    //public dataSource1 = new MatTableDataSounrce([]);
-    public storagesDataSource = new MatTableDataSource([]);
+    public storagesDataSource = new MatTableDataSource<number>([]);
+    public statDataSource = new MatTableDataSource([]);
     columnsToDisplay = ["office_id"];
-    storagesColumnsToDisplay = [ "wh_id", "dt_date" ,"qty"];
+    storagesColumnsToDisplay = [ "wh_id"];
+    statColumnsToDisplay = ["dt_date", "qty"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-    expandedElement!: DataItemDetailed[] | null;
+    storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
+   // expandedElement!: DataItemDetailed[] | null;
     expandedOffice!: DataItemDetailed[] | null;
     expandedStorages!: DataItemDetailed[] | null;
-    expandedOffice1!: number[] | null;
+    expandedStat!: DataItemDetailed[] | null;
 
    sub?: Subscription;
+   public allData  = new Map();
 
   constructor(
       private httpService: HttpService
@@ -41,25 +44,32 @@ export class DataTableComponent implements OnInit {
     this.httpService.getGeneralData();
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
-      this.dataSource.data = Array.from(this.httpService.collectData(val).keys());
-      console.log("office sorted: ", this.dataSource.data);
+      this.allData = this.httpService.collectData(val);
+      this.dataSource.data = Array.from(this.allData.keys());
+    //  console.log("office sorted: ", this.dataSource.data);
 
     });
   }
 
   getExpandedStorages(param: string, id: number) {
-    this.httpService.getDetailedDataById(param, id)
-        .subscribe(val => {
-      this.expandedStorages = val;
-      this.storagesDataSource = val;
-      console.log("storage data: ", Array.from(this.httpService.collectData(val).values()))
-     // let parsedWh = Array.from()
-     // console.log("expanded val: ",   this.expandedStorages);
-    });
+    this.storagesDataSource = this.allData.get(id);
+  }
+
+  getExpandedStat(param: string, id: number) {
+    this.httpService.getDetailedDataById(param, id).subscribe(val => {
+      this.expandedStat = val;
+      this.statDataSource = val;
+      console.log("last table data: ", val);
+    })
   }
 
   clearStorages() {
     this.expandedStorages = [];
+    console.log("clear");
+  }
+
+  clearStat() {
+    this.expandedStat = [];
     console.log("clear");
   }
 

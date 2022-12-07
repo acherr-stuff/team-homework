@@ -30,10 +30,10 @@ export class DataPageComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.httpService.getDetailedDataById("office_id", 1518).subscribe(val => {
-      this.jsonData = val;
-      console.log("date data",this.jsonData);
-    })
+    // this.httpService.getDetailedDataById("office_id", 1518).subscribe(val => {
+    //   this.jsonData = val;
+    //   console.log("date data",this.jsonData);
+    // })
   }
 
   public dateRangeChange(dateRangeStart: any, dateRangeEnd: any): void {
