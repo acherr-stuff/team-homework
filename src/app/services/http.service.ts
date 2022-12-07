@@ -46,7 +46,6 @@ export class HttpService {
                 map(x => JSON.parse(x)),
             )
             .subscribe((data) => {
-                console.log(data);
                 this.dataSubject$.next(data);
             });
     }

@@ -1,0 +1,22 @@
+:host{
+    width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: flex-start;
+}
+
+.link{
+    min-width: 50px;
+    min-height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &.active,&:hover{
+        color: orange;
+    }
+    &:hover{
+        background-color: rgb(175, 175, 175,20%);
+    }
+}
