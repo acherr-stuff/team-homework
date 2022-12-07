@@ -12,4 +12,9 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  linksArr = [
+    { name: 'data', link: '/data' },
+    { name: 'graphs', link: './graphs' },
+];
+
 }

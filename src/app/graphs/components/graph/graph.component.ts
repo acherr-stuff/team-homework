@@ -27,7 +27,6 @@ export class GraphComponent {
   constructor() {}
 
   ngAfterViewInit(): void {
-    console.log(this.graphData)
       this.setChart();
   }
 

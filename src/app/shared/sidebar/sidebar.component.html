@@ -1,2 +1,4 @@
-<p>sidebar works!</p>
-
+<div class="logo">LOGO</div>
+<div class="link" *ngFor="let links of linksArr"
+    routerLinkActive="active"
+        [routerLink]="links.link">{{links.name}}</div>

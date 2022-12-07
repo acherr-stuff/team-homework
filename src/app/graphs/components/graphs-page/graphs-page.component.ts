@@ -29,7 +29,6 @@ export class GraphsPageComponent implements OnInit {
         const data: Map<number, ChartDataInterface> = new Map();
         res.forEach((object: GraphItem) => {
             if (!data.has(object.wh_id)) {
-                console.log(object)
                 const chartDatasets: ChartDatasetsInterface = {
                     label: `склад ${object.wh_id}`,
                     data: [object.qty],
