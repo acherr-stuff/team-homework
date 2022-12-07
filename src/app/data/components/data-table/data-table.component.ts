@@ -94,7 +94,7 @@ export class DataTableComponent implements OnInit {
                 }
             }
         });
-        console.log(data)
+        console.log("map data", data)
         return data;
     }
     

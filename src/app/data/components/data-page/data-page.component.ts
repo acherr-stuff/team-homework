@@ -19,6 +19,8 @@ export class DataPageComponent implements OnInit {
   private endDateField: string = "";
   public startDate!: Date;
   public endDate!: Date;
+  public maxDate: Date = new Date();
+  public minDate: Date = new Date()
 
   jsonData: any;
 
