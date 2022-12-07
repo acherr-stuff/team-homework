@@ -7,14 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
+  menuStatus = true;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   linksArr = [
-    { name: 'data', link: '/data' },
-    { name: 'graphs', link: './graphs' },
+    { name: 'data', link: '/data', icon: 'show_chart' },
+    { name: 'graphs', link: './graphs', icon: 'table_chart' },
 ];
+
+changeMenuStatus() {
+  this.menuStatus = !this.menuStatus;
+}
 
 }

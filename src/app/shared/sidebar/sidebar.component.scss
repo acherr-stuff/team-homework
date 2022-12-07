@@ -1,5 +1,5 @@
 :host{
-    width: 100px;
+    width: auto;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -7,16 +7,62 @@
     justify-content: flex-start;
 }
 
+
+.bar-head{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+    padding: 4px;
+
+    .menu{
+        width: 40px;
+        height: 40px;
+        font-size: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover{
+            background-color: rgb(175, 175, 175,20%);
+            border-radius: 100%;
+            cursor: pointer;
+        }
+    }
+}
+
 .link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap:5px;
     min-width: 50px;
-    min-height: 50px;
+    width: 250px;
+    height: 60px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 18px;
 
-    &.active,&:hover{
-        color: orange;
+    mat-icon{
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
     }
-    &:hover{
+
+    &.active{
+        mat-icon{
+            color: #FF9416;
+        }
+        span{
+            font-weight: 500;
+        }
+    }
+    &.active,&:hover{
         background-color: rgb(175, 175, 175,20%);
     }
+}
+
+.linkShort{
+    width: 50px;
+    flex-direction: column;
 }
