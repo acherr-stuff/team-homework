@@ -13,9 +13,13 @@
 <!--                    <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>-->
 <!--                    <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>-->
 <!--                </button>-->
-                <button class="expand-btn" mat-icon-button aria-label="expand row" (click)="expandedStorages === element ? clearStorages() : getExpandedElement('office_id', element.office_id) ;(expandedElement = (expandedElement === element) ? null : element); $event.stopPropagation()">
-                    <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
-                    <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                <button class="expand-btn" mat-icon-button aria-label="expand row"
+                        (click)="(expandedOffice === element) ? clearStorages() :
+                        getExpandedStorages('office_id', element.office_id);
+                        (expandedOffice = (expandedOffice === element) ? null : element);
+                        $event.stopPropagation()">
+                    <mat-icon *ngIf="expandedOffice !== element">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="expandedOffice === element">keyboard_arrow_up</mat-icon>
                 </button>
             </td>
         </ng-container>
@@ -23,20 +27,15 @@
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
                 <div class="example-element-detail"
-                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                    <div class="example-element-diagram">
+                     [@detailExpand]="element == expandedOffice ? 'expanded' : 'collapsed'">
 <!--                        <div class="example-element-symbol"> {{element.office_id}} </div>-->
 <!--                        <div class="example-element-name"> {{element.wh_id}} </div>-->
-                        <div class="example-element-name"> {{getExpandedElement('office_id', element.office_id)}} </div>
-
-
-                    </div>
+<!--                        <div class="example-element-name"> {{getExpandedElement('office_id', element.office_id)}} </div>-->
+                       <div class="expanded-storages" *ngFor="let storage of expandedStorages">
+                           {{storage.wh_id}} "   " {{storage.dt_date}} "   " {{storage.qty}}
+                       </div>
+<!--                        child table-->
                     <div class="example-element-description">
-
-<!--                        <div *ngFor="let el of expandedElement" class="expanded-el">-->
-<!--                            {{el.wh_id}}-->
-<!--                        </div>-->
-<!--                        {{expandedElement}}-->
                     </div>
                 </div>
             </td>

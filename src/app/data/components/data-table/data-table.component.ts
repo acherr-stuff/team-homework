@@ -43,25 +43,26 @@ export class DataTableComponent implements OnInit {
     columnsToDisplay = ["office_id", "wh_id", "qty"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     expandedElement!: DataItemDetailed[] | null;
-    expandedStorages!: DataItemDetailed[] | null;
+    expandedOffice!: DataItemDetailed[] | null;
+
+  expandedStorages!: DataItemDetailed[] | null;
 
   constructor(
       private httpService: HttpService
   ) {
   }
 
-  getExpandedElement(param: string, id: number) {
-    // this.httpService.getDetailedDataById(param, id).subscribe(val => {
-    //   this.expandedElement = val;
-    //   console.log("expanded val: ",   this.expandedElement);
-    //   //return this.e
-    // });
-    //return  this.httpService.getDetailedDataById(param, id);
-
+  getExpandedStorages(param: string, id: number) {
+    this.httpService.getDetailedDataById(param, id)
+        .subscribe(val => {
+      this.expandedStorages = val;
+      console.log("expanded val: ",   this.expandedStorages);
+    });
   }
 
   clearStorages() {
-    this.expandedStorages = null;
+    this.expandedStorages = [];
+    console.log("clear");
   }
 
   ngOnInit(): void {
