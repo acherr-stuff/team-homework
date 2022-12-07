@@ -9,10 +9,6 @@
         <ng-container matColumnDef="expand">
             <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
             <td mat-cell *matCellDef="let element">
-<!--                <button class="expand-btn" mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">-->
-<!--                    <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>-->
-<!--                    <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>-->
-<!--                </button>-->
                 <button class="expand-btn" mat-icon-button aria-label="expand row"
                         (click)="(expandedOffice === element) ? clearStorages() :
                         getExpandedStorages('wh_id', element.wh_id);
@@ -28,13 +24,19 @@
             <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
                 <div class="example-element-detail"
                      [@detailExpand]="element == expandedOffice ? 'expanded' : 'collapsed'">
-<!--                        <div class="example-element-symbol"> {{element.office_id}} </div>-->
-<!--                        <div class="example-element-name"> {{element.wh_id}} </div>-->
-<!--                        <div class="example-element-name"> {{getExpandedElement('office_id', element.office_id)}} </div>-->
-                       <div class="expanded-storages" *ngFor="let storage of expandedStorages">
-                           {{storage.wh_id}} "   " {{storage.dt_date}} "   " {{storage.qty}}
-                       </div>
-<!--                        child table-->
+<!--                       <div class="expanded-storages" *ngFor="let storage of expandedStorages">-->
+<!--                           {{storage.wh_id}} "   " {{storage.dt_date}} "   " {{storage.qty}}-->
+<!--                       </div>-->
+                    <table mat-table [dataSource]="storagesDataSource" class="mat-elevation-z8">
+                        <ng-container [matColumnDef]="column" *ngFor="let column of storagesColumnsToDisplay">
+                            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="storagesColumnsToDisplay"></tr>
+                        <tr mat-row *matRowDef="let row; columns: storagesColumnsToDisplay;"></tr>
+                    </table>
+
                     <div class="example-element-description">
                     </div>
                 </div>
