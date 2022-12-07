@@ -50,24 +50,43 @@ export class HttpService {
             });
     }
 
-    сollectData(res: Array<DataItem>): Map<number, DataItem[]>
+    collectData(res: Array<DataItem>): Map<number, number[]>
     {
-        const data: Map<number, DataItem[]> = new Map();
+        const data: Map<number, number[]> = new Map();
         res.forEach((object: DataItem) => {
 
             if (!data.has(object.office_id)) {
-                data.set(object.office_id, [object]);
+                data.set(object.office_id, [object.wh_id]);
 
             } else {
                 const graphData = data.get(object.office_id);
                 if (graphData) {
-                    graphData.push(object)
+                    graphData.push(object.wh_id)
                 }
             }
         });
-        console.log("map data", data)
+        console.log(data)
         return data;
     }
+
+    // сollectData(res: Array<DataItem>): Map<number, DataItem[]>
+    // {
+    //     const data: Map<number, DataItem[]> = new Map();
+    //     res.forEach((object: DataItem) => {
+    //
+    //         if (!data.has(object.office_id)) {
+    //             data.set(object.office_id, [object]);
+    //
+    //         } else {
+    //             const graphData = data.get(object.office_id);
+    //             if (graphData) {
+    //                 graphData.push(object)
+    //             }
+    //         }
+    //     });
+    //     console.log("map data", data)
+    //     return data;
+    // }
 
     // collectExpandedData(res: Array<DataItemDetailed>): Map<number, DataItemDetailed> {
     //     const data: Map<number, DataItem[]> = new Map();

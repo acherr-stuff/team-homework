@@ -36,7 +36,7 @@ export class GraphComponent {
               type: 'line',
               options: {
                   responsive: false,
-                  maintainAspectRatio: false,
+                  maintainAspectRatio: true,
                   plugins: {
                       title: {
                           display: true,

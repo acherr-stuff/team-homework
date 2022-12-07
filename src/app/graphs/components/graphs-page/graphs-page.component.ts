@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -10,6 +11,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class GraphsPageComponent implements OnInit {
 
   graphData: ChartDataInterface[] = [];
+  sub?: Subscription;
 
   constructor(
     private httpService: HttpService
@@ -19,10 +21,15 @@ export class GraphsPageComponent implements OnInit {
   ngOnInit(): void {
     this.httpService.getDetailedData();
     // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
-     this.httpService.dataSubject$.subscribe(val => {
+     this.sub = this.httpService.dataSubject$.subscribe(val => {
        this.graphData = this.CollectData(val as GraphItem[]);
      });
   }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
 
   CollectData(res: Array<GraphItem>): ChartDataInterface[] {
     {

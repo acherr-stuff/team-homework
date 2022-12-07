@@ -3,26 +3,9 @@ import {DataItem, DataItemDetailed} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import { Subscription } from 'rxjs';
 
-// export interface PeriodicElement {
-//   name: string;
-//   position: number;
-//   weight: number;
-//   symbol: string;
-// }
 
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-//   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-// ];
 
 @Component({
   selector: 'app-data-table',
@@ -50,14 +33,17 @@ export class DataTableComponent implements OnInit {
     expandedStorages!: DataItemDetailed[] | null;
     expandedOffice1!: number[] | null;
 
+   sub?: Subscription;
+
   constructor(
       private httpService: HttpService
   ) {
     this.httpService.getGeneralData();
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
-      this.dataSource.data = Array.from(this.httpService.сollectData(val).keys());
+      this.dataSource.data = Array.from(this.httpService.collectData(val).keys());
       console.log("office sorted: ", this.dataSource.data);
+
     });
   }
 
@@ -66,8 +52,9 @@ export class DataTableComponent implements OnInit {
         .subscribe(val => {
       this.expandedStorages = val;
       this.storagesDataSource = val;
+      console.log("storage data: ", Array.from(this.httpService.collectData(val).values()))
      // let parsedWh = Array.from()
-      console.log("expanded val: ",   this.expandedStorages);
+     // console.log("expanded val: ",   this.expandedStorages);
     });
   }
 
@@ -77,35 +64,39 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.httpService.getGeneralData();
-    // this.httpService.dataSubject$.subscribe(val => {
-    //   this.generalData = val as DataItem[];
-    //   //this.dataSource.data = val;
-    //   this.dataSource.data = Array.from(this.httpService.сollectData(val).keys());
-    //   console.log("office sorted: ", this.dataSource.data);
-    //  // this.httpService.сollectData(this.dataSource.data)
-    // });
+   //  this.httpService.getGeneralData();
+   // // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
+   //  this.sub = this.httpService.dataSubject$.subscribe(val => {
+   //    this.generalData = val as DataItem[];
+   //    this.dataSource.data = val;
+   //
+   //    this.CollectData(this.dataSource.data)
+   //  });
   }
-  //
-  //
-  // сollectData(res: Array<DataItem>): Map<number, DataItem[]>
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
+
+  // CollectData(res: Array<DataItem>): Map<number, number[]>
   //   {
-  //       const data: Map<number, DataItem[]> = new Map();
+  //       const data: Map<number, number[]> = new Map();
   //       res.forEach((object: DataItem) => {
   //
   //           if (!data.has(object.office_id)) {
-  //               data.set(object.office_id, [object]);
+  //               data.set(object.office_id, [object.wh_id]);
   //
   //           } else {
   //               const graphData = data.get(object.office_id);
   //               if (graphData) {
-  //                   graphData.push(object)
+  //                   graphData.push(object.wh_id)
   //               }
   //           }
   //       });
-  //       console.log("map data", data)
+  //       console.log(data)
   //       return data;
   //   }
-  //
+    
 
 }
