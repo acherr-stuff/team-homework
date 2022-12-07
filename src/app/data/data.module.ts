@@ -5,6 +5,11 @@ import { DataRoutingModule } from "./data-routing.module";
 import { DataTableComponent } from "./components/data-table/data-table.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -15,7 +20,12 @@ import { MatIconModule } from "@angular/material/icon";
     CommonModule,
     DataRoutingModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
   ]
 })
 export class DataModule { }
