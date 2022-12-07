@@ -37,4 +37,26 @@ export class HttpService {
                 this.dataSubject$.next(data);
             });
     }
+
+    // getDetailedDataById(param: string, id: number) {
+    //    return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
+    //         .pipe(
+    //             map(x => JSON.stringify(x)),
+    //             map(x => JSON.parse(x)),
+    //         )
+    //         .subscribe((data) => {
+    //             console.log("detailed", data);
+    //            // this.dataSubject$.next(data);
+    //         });
+    // }
+
+    getDetailedDataById(param: string, id: number) {
+        return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
+            .pipe(
+                map(x => JSON.stringify(x)),
+                map(x => JSON.parse(x)),
+            )
+
+    }
+
 }
