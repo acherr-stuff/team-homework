@@ -1,6 +1,6 @@
 .container{
-    display: grid;
-    grid-template-columns: 200px auto;
+    display: flex;
+    grid-template-columns: minmax(50px,200px) auto;
     width: 100%;
 }
 

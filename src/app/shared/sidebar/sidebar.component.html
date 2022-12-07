@@ -1,4 +1,10 @@
-<div class="logo">LOGO</div>
-<div class="link" *ngFor="let links of linksArr"
+<div class="bar-head">
+    <mat-icon class="menu" (click)="changeMenuStatus()">menu</mat-icon>
+    <img *ngIf="menuStatus"  class="logo" alt="LOGO">
+</div>
+<div class="link" [ngClass]="{linkShort: !menuStatus}" *ngFor="let links of linksArr"
     routerLinkActive="active"
-        [routerLink]="links.link">{{links.name}}</div>
+        [routerLink]="links.link">
+    <mat-icon>{{links.icon}}</mat-icon>
+    <span>{{links.name}}</span>    
+</div>
