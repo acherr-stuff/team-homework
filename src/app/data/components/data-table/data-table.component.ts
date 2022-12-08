@@ -3,7 +3,7 @@ import {DataItem, DataItemDetailed} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { Router } from '@angular/router';
 import {
@@ -64,33 +64,36 @@ export class DataTableComponent implements OnInit {
     expandedOffice!: DataItemDetailed[] | null;
     expandedStorages!: DataItemDetailed[] | null;
     expandedStat!: DataItemDetailed[] | null;
-    mapOfIdS  = new Map();
 
-    range = new FormGroup({
+    currentWHId!: number;
+    mapOfIdS = new Map();
+    sub?: Subscription;
+
+
+  range = new FormGroup({
       start: new FormControl<Date | null>(null, Validators.required),
       end: new FormControl<Date | null>(null, Validators.required),
     });
-    //private startDateField: string = "";
-    //private endDateField: string = "";
     public startDate!: string;
     public endDate!: string;
     public maxDate: Date = new Date();
-    public minDate: Date = new Date()
-
+    public minDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() - 6));
+    myFilter = (d: Date): boolean => {
+      const maxDate: Date = new Date();
+      const minDate = new Date((new Date()).setMonth((new Date()).getMonth() - 6));
+      return d <= maxDate && d >=minDate;
+    };
 
   constructor(
       private httpService: HttpService,
       private readonly router: Router
   ) {
     this.httpService.getGeneralData();
-    this.httpService.dataSubject$.subscribe(val => {
+    this.sub = this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
       this.mapOfIdS = this.httpService.collectData(val);
       this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
-    // this.httpService.getDetailedDataById('wh_id', 70, '2022-08-28', '2022-08-31').subscribe(val => {
-    //   console.log("filtered by date: ", val);
-    // })
   }
 
   getExpandedStorages(id: number) {
@@ -98,7 +101,13 @@ export class DataTableComponent implements OnInit {
   }
 
   getExpandedStat(param: string, id: number) {
-    this.statDataSource$ = this.httpService.getDetailedDataById(param, id, this.startDate, this.endDate)
+    this.currentWHId = id;
+    this.statDataSource$ = this.httpService.getDetailedDataById(param, id, this.startDate, this.endDate);
+
+  }
+
+  getExpandedStat1(param: string, id: number, start: string, end: string): Observable<any> {
+   return this.httpService.getDetailedDataById(param, id, start, end);
   }
 
   clearStorages() {
@@ -114,20 +123,18 @@ export class DataTableComponent implements OnInit {
 
   ngOnDestroy() {
     console.log('datatableDestroy')
-    
-    
-    this.httpService.dataSubject$.unsubscribe();
-  
-  
+    this.sub?.unsubscribe();
   }
 
   public dateRangeChange(dateRangeStart: any, dateRangeEnd: any): void {
-
     this.startDate = dateRangeStart.value;
     this.endDate = dateRangeEnd.value;
-    //console.log("start date: ",  this.startDate, " end date: ", this.endDate);
-
     }
 
+  public updateDates() {
+    if (this.currentWHId) {
+      this.statDataSource$ = this.httpService.getDetailedDataById('wh_id', this.currentWHId, this.startDate, this.endDate);
+    }
+  }
 
 }

@@ -47,7 +47,7 @@ export class HttpService {
     }
 
     getDetailedDataById(param: string, id: number, startDate?: string, endDate?: string) {
-
+        console.log("get detailed");
         if (startDate && endDate) {
             return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}&dt_date_gte=${startDate}&dt_date_lte=${endDate}`)
                 .pipe(
