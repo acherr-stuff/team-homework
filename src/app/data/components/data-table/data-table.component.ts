@@ -4,6 +4,7 @@ import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 
@@ -39,7 +40,8 @@ export class DataTableComponent implements OnInit {
    public allData  = new Map();
 
   constructor(
-      private httpService: HttpService
+      private httpService: HttpService,
+      private readonly router: Router
   ) {
     this.httpService.getGeneralData();
     this.httpService.dataSubject$.subscribe(val => {
@@ -49,6 +51,10 @@ export class DataTableComponent implements OnInit {
     //  console.log("office sorted: ", this.dataSource.data);
 
     });
+  }
+
+  openGraph(id:number) {  //НАВИГАЦИЯ ПО ГРАФАМ
+    this.router.navigate([`/graphs/${id}`])
   }
 
   getExpandedStorages(param: string, id: number) {
