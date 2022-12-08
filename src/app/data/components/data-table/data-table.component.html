@@ -1,29 +1,29 @@
 <div class="container">
-    <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="myFilter">
-            <input matStartDate formControlName="start" #dateRangeStart placeholder="Start date">
-            <input matEndDate formControlName="end" #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" placeholder="End date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+    <div class="table-header">
+        <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="myFilter">
+                <input matStartDate formControlName="start" #dateRangeStart placeholder="Start date">
+                <input matEndDate formControlName="end" #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
 
-        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-    </mat-form-field>
-
-    <p>Selected range: {{startDate}} {{endDate}}</p>
-    <button class="update-btn" (click)="updateDates()">Update</button>
-    <table class="table" mat-table
+            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+        <button class="btn btn-update" (click)="updateDates()">Update</button>
+    </div>
+    <table mat-table
            [dataSource]="dataSource" multiTemplateDataRows
-           class="mat-elevation-z8">
+           class="table mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
             <td mat-cell *matCellDef="let element"> {{element}} </td>
         </ng-container>
         <ng-container matColumnDef="expand">
             <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell class="expand" *matCellDef="let element">
                 <button class="expand-btn" mat-icon-button aria-label="expand row"
                         (click)="(expandedOffice === element) ? clearStorages() :
                         getExpandedStorages(element);
@@ -39,7 +39,7 @@
             <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
                 <div class="example-element-detail"
                      [@detailExpand]="element == expandedOffice ? 'expanded' : 'collapsed'">
-                    <table mat-table [dataSource]="storagesDataSource" class="mat-elevation-z8" multiTemplateDataRows>
+                    <table  mat-table [dataSource]="storagesDataSource" class="mat-elevation-z8" multiTemplateDataRows>
                         <ng-container [matColumnDef]="column" *ngFor="let column of storagesColumnsToDisplay">
                             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                             <td mat-cell *matCellDef="let element"> {{element}}</td>
@@ -52,7 +52,7 @@
                         </ng-container>
                         <ng-container matColumnDef="expand">
                             <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-                            <td mat-cell *matCellDef="let element">
+                            <td mat-cell class="expand" *matCellDef="let element">
                                 <button class="expand-btn" mat-icon-button aria-label="expand row"
                                         (click)="(expandedStorages === element) ? clearStat() :
                                         getExpandedStat('wh_id', element);

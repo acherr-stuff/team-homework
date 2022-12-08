@@ -59,6 +59,7 @@ export class DataTableComponent implements OnInit {
     columnsToDisplay = ["office_id"];
     storagesColumnsToDisplay = [ "wh_id"];
     statColumnsToDisplay = ["dt_date", "qty"];
+    allColumnsToDisplay = ["Офис", "Склад", "Дата", "Количество"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
     expandedOffice!: DataItemDetailed[] | null;
