@@ -33,6 +33,7 @@ export class GraphsPageComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    console.log('graphCreate')
     this.httpService.getDetailedData();
     // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
      this.sub = this.httpService.dataSubject$.subscribe(val => {
@@ -44,7 +45,8 @@ export class GraphsPageComponent implements OnInit {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
-    //this.httpService.dataSubject$.unsubscribe();
+    if ( this.httpService.sub)
+      this.httpService.sub.unsubscribe();
   }
 
   ngAfterViewInit(): void {

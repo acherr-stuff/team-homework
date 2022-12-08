@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed, GraphItem} from "../model/data-types";
-import {BehaviorSubject, map, Observable, Subject} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class HttpService {
 
 
     dataSubject$ = new BehaviorSubject([]);
+    sub?: Subscription;
     constructor(
         private http: HttpClient
     ) {
@@ -20,13 +21,13 @@ export class HttpService {
     //Единный метод для получения данных из файла
     getData(detailed: boolean = false) {
         const fileName = (detailed) ? 'data_detailed':'data'; 
-        this.http.get(`http://${environment.url}:${environment.port}/${fileName}`)
+        this.sub = this.http.get(`http://${environment.url}:${environment.port}/${fileName}`)
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
             )
             .subscribe((data) => {
-                console.log(data);
+                console.log('test');
                 this.dataSubject$.next(data);
             });
     }
@@ -40,7 +41,7 @@ export class HttpService {
                 map(x => JSON.parse(x)),
             )
             .subscribe((data) => {
-                console.log(data);
+                console.log('test');
                 this.dataSubject$.next(data);
             });
     }
@@ -72,6 +73,7 @@ export class HttpService {
                 map(x => JSON.parse(x)),
             )
             .subscribe((data) => {
+                console.log('test');
                 this.dataSubject$.next(data);
             });
     }
