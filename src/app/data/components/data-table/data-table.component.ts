@@ -3,9 +3,8 @@ import {DataItem, DataItemDetailed} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import { Subscription } from 'rxjs';
-
-
+import {Observable, of} from 'rxjs';
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-data-table',
@@ -24,19 +23,30 @@ export class DataTableComponent implements OnInit {
   generalData: DataItem[] = [];
     public dataSource = new MatTableDataSource<number>([]);
     public storagesDataSource = new MatTableDataSource<number>([]);
-    public statDataSource = new MatTableDataSource([]);
+   // public statDataSource = new MatTableDataSource([]);
+    public statDataSource$: Observable<any> = of([]);
     columnsToDisplay = ["office_id"];
     storagesColumnsToDisplay = [ "wh_id"];
     statColumnsToDisplay = ["dt_date", "qty"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
-   // expandedElement!: DataItemDetailed[] | null;
     expandedOffice!: DataItemDetailed[] | null;
     expandedStorages!: DataItemDetailed[] | null;
     expandedStat!: DataItemDetailed[] | null;
+    mapOfIdS  = new Map();
 
-   sub?: Subscription;
-   public allData  = new Map();
+    range = new FormGroup({
+      start: new FormControl<Date | null>(null),
+      end: new FormControl<Date | null>(null),
+    });
+
+    private startDateField: string = "";
+    private endDateField: string = "";
+    public startDate!: Date;
+    public endDate!: Date;
+    public maxDate: Date = new Date();
+    public minDate: Date = new Date()
+
 
   constructor(
       private httpService: HttpService
@@ -44,69 +54,57 @@ export class DataTableComponent implements OnInit {
     this.httpService.getGeneralData();
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
-      this.allData = this.httpService.collectData(val);
-      this.dataSource.data = Array.from(this.allData.keys());
-    //  console.log("office sorted: ", this.dataSource.data);
-
+      this.mapOfIdS = this.httpService.collectData(val);
+      this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
   }
 
-  getExpandedStorages(param: string, id: number) {
-    this.storagesDataSource = this.allData.get(id);
+  getExpandedStorages(id: number) {
+    this.storagesDataSource = this.mapOfIdS.get(id);
   }
 
   getExpandedStat(param: string, id: number) {
-    this.httpService.getDetailedDataById(param, id).subscribe(val => {
-      this.expandedStat = val;
-      this.statDataSource = val;
-      console.log("last table data: ", val);
-    })
+    this.statDataSource$ = this.httpService.getDetailedDataById(param, id)
   }
 
   clearStorages() {
     this.expandedStorages = [];
-    console.log("clear");
   }
 
   clearStat() {
     this.expandedStat = [];
-    console.log("clear");
   }
 
   ngOnInit(): void {
-   //  this.httpService.getGeneralData();
-   // // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
-   //  this.sub = this.httpService.dataSubject$.subscribe(val => {
-   //    this.generalData = val as DataItem[];
-   //    this.dataSource.data = val;
-   //
-   //    this.CollectData(this.dataSource.data)
-   //  });
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.httpService.dataSubject$.unsubscribe();
   }
 
-
-  // CollectData(res: Array<DataItem>): Map<number, number[]>
-  //   {
-  //       const data: Map<number, number[]> = new Map();
-  //       res.forEach((object: DataItem) => {
-  //
-  //           if (!data.has(object.office_id)) {
-  //               data.set(object.office_id, [object.wh_id]);
-  //
-  //           } else {
-  //               const graphData = data.get(object.office_id);
-  //               if (graphData) {
-  //                   graphData.push(object.wh_id)
-  //               }
-  //           }
-  //       });
-  //       console.log(data)
-  //       return data;
-  //   }
-    
+  public dateRangeChange(dateRangeStart: any, dateRangeEnd: any): void {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      timezone: "UTC"
+    };
+    console.log("start date: ", )
+    this.startDateField = dateRangeStart.value.toLocaleString("ru", options);
+    this.endDateField = dateRangeEnd.value.toLocaleString("ru", options);
+    if (this.startDateField !== "" && this.endDateField !== "") {
+      this.startDate = new Date(this.startDateField);
+      this.endDate = new Date(this.endDateField);
+      // this.startTime = this.startDate.getTime();
+      // this.endTime = this.endDate.getTime();
+      // this.dateInput  =  document.querySelector(".mat-form-field-type-mat-date-range-input ");
+      // this.dateInput.style.width = "200px";
+      // this.deleteDateIcon.style.display = "inline-flex";
+      // this.dateIcon  =  document.querySelector(".mat-form-field-suffix");
+      // this.dateIcon.style.display = "none";
+      // this.getDealAnalyticsAll(this.startTime, this.endTime);
+      // this.dateService.dateRangeMethod(this.startTime, this.endTime);
+    }
+  }
 
 }

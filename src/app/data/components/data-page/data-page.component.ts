@@ -22,8 +22,6 @@ export class DataPageComponent implements OnInit {
   public maxDate: Date = new Date();
   public minDate: Date = new Date()
 
-  jsonData: any;
-
   constructor(
       public httpService: HttpService
   ) {
@@ -60,10 +58,4 @@ export class DataPageComponent implements OnInit {
     }
   }
 
-  getData() {
-    this.httpService.getDetailedDataById("office_id", 1518).subscribe(val => {
-      this.jsonData = val;
-      console.log("date data",this.jsonData);
-    })
-  }
 }
