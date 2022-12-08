@@ -17,6 +17,22 @@ export class HttpService {
     }
 
 
+    //Единный метод для получения данных из файла
+    getData(detailed: boolean = false) {
+        const fileName = (detailed) ? 'data_detailed':'data'; 
+        this.http.get(`http://${environment.url}:${environment.port}/${fileName}`)
+            .pipe(
+                map(x => JSON.stringify(x)),
+                map(x => JSON.parse(x)),
+            )
+            .subscribe((data) => {
+                console.log(data);
+                this.dataSubject$.next(data);
+            });
+    }
+
+
+
     getGeneralData() {
         this.http.get(`http://${environment.url}:${environment.port}/data`)
             .pipe(
