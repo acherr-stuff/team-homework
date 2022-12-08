@@ -118,7 +118,12 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //this.httpService.dataSubject$.unsubscribe();
+    console.log('datatableDestroy')
+    
+    
+    this.httpService.dataSubject$.unsubscribe();
+  
+  
   }
 
   public dateRangeChange(dateRangeStart: any, dateRangeEnd: any): void {
