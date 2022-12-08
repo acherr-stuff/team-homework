@@ -13,6 +13,7 @@ import {
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
+import {s} from "chart.js/dist/chunks/helpers.core";
 
 export const MY_FORMATS = {
   parse: {
@@ -71,8 +72,8 @@ export class DataTableComponent implements OnInit {
     });
     //private startDateField: string = "";
     //private endDateField: string = "";
-    public startDate!: Date;
-    public endDate!: Date;
+    public startDate!: string;
+    public endDate!: string;
     public maxDate: Date = new Date();
     public minDate: Date = new Date()
 
@@ -97,7 +98,7 @@ export class DataTableComponent implements OnInit {
   }
 
   getExpandedStat(param: string, id: number) {
-    this.statDataSource$ = this.httpService.getDetailedDataById(param, id)
+    this.statDataSource$ = this.httpService.getDetailedDataById(param, id, this.startDate, this.endDate)
   }
 
   clearStorages() {
@@ -119,7 +120,7 @@ export class DataTableComponent implements OnInit {
 
     this.startDate = dateRangeStart.value;
     this.endDate = dateRangeEnd.value;
-    console.log("start date: ",  this.startDate, " end date: ", this.endDate);
+    //console.log("start date: ",  this.startDate, " end date: ", this.endDate);
 
     }
 
