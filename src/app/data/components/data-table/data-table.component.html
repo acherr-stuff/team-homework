@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <p>Selected range: {{startDate}} {{endDate}}</p>
-    <button class="update-btn">Update</button>
+    <button class="update-btn" (click)="updateDates()">Update</button>
     <table class="table" mat-table
            [dataSource]="dataSource" multiTemplateDataRows
            class="mat-elevation-z8">
@@ -42,7 +42,13 @@
                     <table mat-table [dataSource]="storagesDataSource" class="mat-elevation-z8" multiTemplateDataRows>
                         <ng-container [matColumnDef]="column" *ngFor="let column of storagesColumnsToDisplay">
                             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-                            <td mat-cell *matCellDef="let element"> {{element}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="open-chart">
+                            <th mat-header-cell *matHeaderCellDef aria-label="row actions">chart</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button class="open-graph" [routerLink]="['/graphs']" [queryParams]="{id: element}">Get chart</button>
+                            </td>
                         </ng-container>
                         <ng-container matColumnDef="expand">
                             <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
@@ -61,6 +67,8 @@
                             <td mat-cell *matCellDef="let element" [attr.colspan]="statColumnsToDisplay.length">
                                 <div class="example-element-detail"
                                      [@detailExpand]="element == expandedStorages ? 'expanded' : 'collapsed'">
+
+
                                     <table mat-table [dataSource]="statDataSource$ | async" class="mat-elevation-z8" multiTemplateDataRows>
                                         <ng-container [matColumnDef]="column" *ngFor="let column of statColumnsToDisplay">
                                             <th mat-header-cell *matHeaderCellDef> {{column}} </th>
