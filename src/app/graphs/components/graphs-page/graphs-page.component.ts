@@ -2,8 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { fromEvent, Subject, Subscription, takeUntil } from 'rxjs';
+//import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
 import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from '../../../model/data-types';
-import { HttpService } from 'src/app/services/http.service';
+//import { HttpService } from 'src/app/services/http.service';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-graphs-page',

@@ -6,8 +6,11 @@ import {
   } from '@angular/core';
 import { Router } from '@angular/router';
   import { Chart } from 'chart.js/auto';
-import { ChartDataInterface, GraphItem } from 'src/app/model/data-types';
-import { HttpService } from 'src/app/services/http.service';
+//import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
+import { GraphItem, ChartDataInterface } from '../../../model/data-types';
+//import { HttpService } from 'src/app/services/http.service';
+import { HttpService } from '../../../services/http.service';
+
   
 
 @Component({

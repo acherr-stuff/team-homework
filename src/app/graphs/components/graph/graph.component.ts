@@ -6,8 +6,10 @@ import {
     ViewChild,
   } from '@angular/core';
   import { Chart } from 'chart.js/auto';
-import { ChartDataInterface } from 'src/app/model/data-types';
-  
+//import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
+import {ChartDataInterface } from '../../../model/data-types';
+
+
 
 @Component({
   selector: 'app-graph',
