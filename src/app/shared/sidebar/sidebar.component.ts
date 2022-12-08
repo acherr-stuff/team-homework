@@ -15,8 +15,8 @@ export class SidebarComponent implements OnInit {
   }
 
   linksArr = [
-    { name: 'data', link: '/data', icon: 'show_chart' },
-    { name: 'graphs', link: './graphs', icon: 'table_chart' },
+    { name: 'data', link: '/data', icon: 'table_chart' },
+    { name: 'graphs', link: './graphs', icon: 'show_chart' },
 ];
 
 changeMenuStatus() {

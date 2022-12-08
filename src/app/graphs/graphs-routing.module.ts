@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GraphsPageComponent } from "./components/graphs-page/graphs-page.component";
+import { SingleGraphComponent } from './components/single-graph/single-graph.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: GraphsPageComponent
+    component: GraphsPageComponent,
+  },
+  {
+    path:':id',
+    component: SingleGraphComponent
   }
 ];
 

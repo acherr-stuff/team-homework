@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { fromEvent, Subject, Subscription, takeUntil } from 'rxjs';
 import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -12,9 +12,17 @@ export class GraphsPageComponent implements OnInit {
 
   graphData: ChartDataInterface[] = [];
   sub?: Subscription;
+  visualGraphsSize = 5;
+
+  @ViewChild('graphsArea') GraphsArea?: ElementRef;
+
+  destroy = new Subject();
+  destroy$ = this.destroy.asObservable();
+    
+
 
   constructor(
-    private httpService: HttpService
+    public httpService: HttpService
 ) {
 }
 
@@ -22,44 +30,25 @@ export class GraphsPageComponent implements OnInit {
     this.httpService.getDetailedData();
     // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
      this.sub = this.httpService.dataSubject$.subscribe(val => {
-       this.graphData = this.CollectData(val as GraphItem[]);
+       this.graphData = this.httpService.createCharts(val as GraphItem[]);
      });
+
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
 
+  ngAfterViewInit(): void {
+    if (this.GraphsArea)
+    fromEvent(this.GraphsArea.nativeElement, 'scroll').pipe(takeUntil(this.destroy$))
+			.subscribe((e) => this.scrollHandler(e as Event));
 
-  CollectData(res: Array<GraphItem>): ChartDataInterface[] {
-    {
-        const data: Map<number, ChartDataInterface> = new Map();
-        res.forEach((object: GraphItem) => {
-            if (!data.has(object.wh_id)) {
-                const chartDatasets: ChartDatasetsInterface = {
-                    label: `склад ${object.wh_id}`,
-                    data: [object.qty],
-                    borderWidth:1,
-                };
-
-                data.set(object.wh_id, {
-                    title:`склад ${object.wh_id}`,
-                    label: [object.dt_date],
-                    datasets: [chartDatasets],
-                });
-            } else {
-                const graphData = data.get(object.wh_id);
-
-                if (graphData) {
-
-                    graphData.datasets[0].data.push(object.qty)
-
-                    graphData.label.push(object.dt_date)
-                }
-            }
-        });
-        return [...data.values()];
-    }
 }
+
+  scrollHandler(e: Event) {
+    if ((e.target as Element).scrollHeight - ((e.target as Element).scrollTop +  window.innerHeight)<400)
+      this.visualGraphsSize +=5;
+  }
 
 }

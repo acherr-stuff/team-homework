@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: 'graphs',
-    loadChildren: () => import('./graphs/graphs.module').then(m => m.GraphsModule)
+    loadChildren: () => import('./graphs/graphs.module').then(m => m.GraphsModule),
   },
   {
     path: '',
