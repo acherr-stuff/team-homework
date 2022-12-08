@@ -4,7 +4,7 @@ import { GraphsPageComponent } from './components/graphs-page/graphs-page.compon
 import {GraphsRoutingModule} from "./graphs-routing.module";
 import { GraphComponent } from './components/graph/graph.component';
 import { SingleGraphComponent } from './components/single-graph/single-graph.component';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { SingleGraphComponent } from './components/single-graph/single-graph.com
   imports: [
     CommonModule,
     GraphsRoutingModule,
+    MatProgressSpinnerModule
   ],
 })
 export class GraphsModule { }

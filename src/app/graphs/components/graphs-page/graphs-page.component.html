@@ -1,9 +1,21 @@
 <div class="graphs-area" #graphsArea>
-    <div *ngFor="let graph of graphData;index as i" 
-    [ngClass]="{'graphs-display-none': i >= visualGraphsSize}">
-        <app-graph 
-        class="graphs"
-        [graphData]="graph"
-    ></app-graph>
-    </div>
+    <div *ngIf="graphData.length; then graphs else spinner"></div>
+    <ng-template #graphs>
+        <div *ngFor="let graph of graphData;index as i" 
+        [ngClass]="{'graphs-display-none': i >= visualGraphsSize}">
+            <app-graph 
+            class="graphs"
+            [graphData]="graph"
+        ></app-graph>
+        </div>
+    </ng-template>
+    <ng-template #spinner>
+        <div class="spinner">
+            <mat-progress-spinner
+            class="mat-spinner"
+            [color]="spinnerColor"
+            [mode]="spinnerMode">
+        </mat-progress-spinner>
+        </div>
+    </ng-template>
 </div>

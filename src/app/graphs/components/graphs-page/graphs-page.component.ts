@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { fromEvent, Subject, Subscription, takeUntil } from 'rxjs';
 import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
 import { HttpService } from 'src/app/services/http.service';
@@ -9,6 +11,10 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrls: ['./graphs-page.component.scss']
 })
 export class GraphsPageComponent implements OnInit {
+
+  spinnerColor:ThemePalette = 'warn'
+  spinnerMode: ProgressSpinnerMode = 'indeterminate';
+  
 
   graphData: ChartDataInterface[] = [];
   sub?: Subscription;
@@ -31,12 +37,14 @@ export class GraphsPageComponent implements OnInit {
     // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
      this.sub = this.httpService.dataSubject$.subscribe(val => {
        this.graphData = this.httpService.createCharts(val as GraphItem[]);
+       console.log(this.graphData)
      });
 
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    //this.httpService.dataSubject$.unsubscribe();
   }
 
   ngAfterViewInit(): void {
