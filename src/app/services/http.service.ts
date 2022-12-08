@@ -105,7 +105,9 @@ export class HttpService {
                     const chartDatasets: ChartDatasetsInterface = {
                         label: `склад ${object.wh_id}`,
                         data: [object.qty],
-                        borderWidth:1,
+                        borderWidth:2,
+                        borderColor: '#FF9416',
+                        tension: 0.2,
                     };
     
                     data.set(object.wh_id, {
