@@ -1,6 +1,6 @@
 <div class="bar-head">
     <mat-icon class="menu" (click)="changeMenuStatus()">menu</mat-icon>
-    <img *ngIf="menuStatus"  class="logo" alt="LOGO">
+    <img *ngIf="menuStatus"  class="logo" alt="LOGO" src="../../../assets/logo.svg">
 </div>
 <div class="link" [ngClass]="{linkShort: !menuStatus}" *ngFor="let links of linksArr"
     routerLinkActive="active"

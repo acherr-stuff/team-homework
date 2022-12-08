@@ -53,7 +53,7 @@ export class DataTableComponent implements OnInit {
     });
   }
 
-  openGraph(id:number) {  //НАВИГАЦИЯ ПО ГРАФАМ
+  openGraph(id:number) {  //НАВИГАЦИЯ
     this.router.navigate([`/graphs/${id}`])
   }
 
