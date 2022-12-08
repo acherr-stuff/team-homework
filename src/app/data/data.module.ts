@@ -27,7 +27,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatMomentDateModule
+    MatMomentDateModule,
   ]
 })
 export class DataModule { }

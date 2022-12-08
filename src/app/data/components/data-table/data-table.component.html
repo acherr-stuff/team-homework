@@ -1,11 +1,10 @@
 <div class="container">
     <mat-form-field appearance="fill">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="myFilter">
             <input matStartDate formControlName="start" #dateRangeStart placeholder="Start date">
-            <input matEndDate formControlName="end" #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" [max]="maxDate" placeholder="End date">
+            <input matEndDate formControlName="end" #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" placeholder="End date">
         </mat-date-range-input>
-<!--        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>-->
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
 

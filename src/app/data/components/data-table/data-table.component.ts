@@ -64,33 +64,38 @@ export class DataTableComponent implements OnInit {
     expandedOffice!: DataItemDetailed[] | null;
     expandedStorages!: DataItemDetailed[] | null;
     expandedStat!: DataItemDetailed[] | null;
-    mapOfIdS  = new Map();
+    mapOfIdS = new Map();
 
     range = new FormGroup({
       start: new FormControl<Date | null>(null, Validators.required),
       end: new FormControl<Date | null>(null, Validators.required),
     });
-    //private startDateField: string = "";
-    //private endDateField: string = "";
     public startDate!: string;
     public endDate!: string;
     public maxDate: Date = new Date();
-    public minDate: Date = new Date()
-
+    public minDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() - 6));
+    myFilter = (d: Date): boolean => {
+      //const day = (d || new Date()).getDay();
+      const maxDate: Date = new Date();
+      console.log("date: ", d);
+      console.log("max date: ", maxDate)
+      const minDate = new Date((new Date()).setMonth((new Date()).getMonth() - 6));
+      console.log("min date: ", minDate)
+      // Prevent Saturday and Sunday from being selected.
+      return d <= maxDate && d >=minDate;
+    };
 
   constructor(
       private httpService: HttpService,
       private readonly router: Router
   ) {
+    console.log("min date: ", this.minDate);
     this.httpService.getGeneralData();
     this.httpService.dataSubject$.subscribe(val => {
       this.generalData = val as DataItem[];
       this.mapOfIdS = this.httpService.collectData(val);
       this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
-    // this.httpService.getDetailedDataById('wh_id', 70, '2022-08-28', '2022-08-31').subscribe(val => {
-    //   console.log("filtered by date: ", val);
-    // })
   }
 
   getExpandedStorages(id: number) {
@@ -120,7 +125,7 @@ export class DataTableComponent implements OnInit {
 
     this.startDate = dateRangeStart.value;
     this.endDate = dateRangeEnd.value;
-    //console.log("start date: ",  this.startDate, " end date: ", this.endDate);
+    console.log("start date: ",  this.startDate, " end date: ", this.endDate);
 
     }
 
