@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {DataItem, DataItemDetailed} from "../model/data-types";
+import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed, GraphItem} from "../model/data-types";
 import {BehaviorSubject, map, Observable, Subject} from "rxjs";
 
 @Injectable({
@@ -29,7 +29,16 @@ export class HttpService {
             });
     }
 
-    getDetailedDataById(param: string, id: number) {
+    getDetailedDataById(param: string, id: number, startDate?: string, endDate?: string) {
+
+        if (startDate && endDate) {
+            return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}&dt_date_gte=${startDate}&dt_date_lte=${endDate}`)
+                .pipe(
+                    map(x => JSON.stringify(x)),
+                    map(x => JSON.parse(x)),
+                )
+        } else
+
         return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
             .pipe(
                 map(x => JSON.stringify(x)),
@@ -37,6 +46,7 @@ export class HttpService {
             )
 
     }
+
 
 
     getDetailedData() {
@@ -68,6 +78,37 @@ export class HttpService {
         console.log(data)
         return data;
     }
+
+    createCharts(res: Array<GraphItem>): ChartDataInterface[] 
+    { 
+            const data: Map<number, ChartDataInterface> = new Map();
+            res.forEach((object: GraphItem) => {
+                if (!data.has(object.wh_id)) {
+                    const chartDatasets: ChartDatasetsInterface = {
+                        label: `склад ${object.wh_id}`,
+                        data: [object.qty],
+                        borderWidth:1,
+                    };
+    
+                    data.set(object.wh_id, {
+                        title:`склад ${object.wh_id}`,
+                        label: [object.dt_date],
+                        datasets: [chartDatasets],
+                    });
+                } else {
+                    const graphData = data.get(object.wh_id);
+    
+                    if (graphData) {
+    
+                        graphData.datasets[0].data.push(object.qty)
+    
+                        graphData.label.push(object.dt_date)
+                    }
+                }
+            });
+            return [...data.values()];
+        }
+    
 
     // сollectData(res: Array<DataItem>): Map<number, DataItem[]>
     // {
