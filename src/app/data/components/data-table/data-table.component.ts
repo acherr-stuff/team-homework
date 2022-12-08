@@ -56,9 +56,10 @@ export class DataTableComponent implements OnInit {
     public dataSource = new MatTableDataSource<number>([]);
     public storagesDataSource = new MatTableDataSource<number>([]);
     public statDataSource$: Observable<any> = of([]);
-    columnsToDisplay = ["office_id"];
-    storagesColumnsToDisplay = [ "wh_id"];
+    columnsToDisplay = ["Офис"];
+    storagesColumnsToDisplay = [ "Склад"];
     statColumnsToDisplay = ["dt_date", "qty"];
+    statColumnsNames = ["Дата", "Количество"]; //Добавил доп массив для вывода колонок на русском
     allColumnsToDisplay = ["Офис", "Склад", "Дата", "Количество"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
@@ -95,6 +96,18 @@ export class DataTableComponent implements OnInit {
       this.mapOfIdS = this.httpService.collectData(val);
       this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
+  }
+
+  openGraph(id:number) {
+    //window.open()
+    console.log(this.router.url)
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([`graphs/${id}`])
+    );
+  
+    window.open(url, '_blank');
+  
+    //this.router.navigate([`graphs/${id}`])
   }
 
   getExpandedStorages(id: number) {
