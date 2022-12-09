@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ActivatedRoute } from '@angular/router';
 import { fromEvent, Subject, Subscription, takeUntil } from 'rxjs';
 //import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
 import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from '../../../model/data-types';
@@ -26,27 +27,40 @@ export class GraphsPageComponent implements OnInit {
 
   destroy = new Subject();
   destroy$ = this.destroy.asObservable();
-    
+  
 
+  id: any;
 
-  constructor(
-    public httpService: HttpService
-) {
-}
+   
+  private querySubscription: Subscription;
+
+  constructor( public httpService: HttpService,private route: ActivatedRoute) {
+
+      this.querySubscription = route.queryParams.subscribe(
+          (queryParam: any) => {
+              this.id = queryParam['id'];
+          }
+      );
+  }
+
 
   ngOnInit(): void {
-    console.log('graphCreate')
+    if (this.id) {
+      this.httpService.getDetailedDataById("wh_id", this.id).subscribe(val => {
+        this.graphData = this.httpService.createCharts(val as GraphItem[])
+      })
+    }
+    else {
     this.httpService.getDetailedData();
-    // this.httpService.getDetailedDataById("office_id", 1518).subscribe();
      this.sub = this.httpService.dataSubject$.subscribe(val => {
        this.graphData = this.httpService.createCharts(val as GraphItem[]);
-       console.log(this.graphData)
      });
-
+    }
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    this.querySubscription.unsubscribe();
     if ( this.httpService.sub)
       this.httpService.sub.unsubscribe();
   }
