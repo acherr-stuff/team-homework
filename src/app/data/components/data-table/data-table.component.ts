@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DataItem, DataItemDetailed} from "../../../model/data-types";
+import {DataItem} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -52,7 +52,6 @@ export const MY_FORMATS = {
 })
 export class DataTableComponent implements OnInit {
 
-  //generalData: DataItem[] = [];
     public dataSource = new MatTableDataSource<number>([]);
     public storagesDataSource = new MatTableDataSource<number>([]);
     public statDataSource$: Observable<any> = of([]);
@@ -63,10 +62,9 @@ export class DataTableComponent implements OnInit {
     allColumnsToDisplay = ["Офис", "Склад", "Дата", "Количество"];
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
-    expandedOffice!: DataItemDetailed[] | null;
-    //expandedStorages!: DataItemDetailed[] | null;
+    expandedOffice!: DataItem[] | null;
     expandedStorages!: number | null;
-    expandedStat!: DataItemDetailed[] | null;
+    expandedStat!: DataItem[] | null;
 
     currentWHId!: number;
     mapOfIdS = new Map();
@@ -79,8 +77,7 @@ export class DataTableComponent implements OnInit {
     });
     public startDate!: string;
     public endDate!: string;
-    public maxDate: Date = new Date();
-    public minDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() - 6));
+
     myFilter = (d: Date): boolean => {
       const maxDate: Date = new Date();
       const minDate = new Date((new Date()).setMonth((new Date()).getMonth() - 6));
@@ -98,20 +95,20 @@ export class DataTableComponent implements OnInit {
     });
   }
 
-  openGraph(id:number) {
+  openGraph(id:number): void {
     const url = this.router.serializeUrl(
       this.router.createUrlTree([`graphs/${id}`])
     );
     window.open(url, '_blank');
   }
 
-  getExpandedStorages(id: number) {
+  getExpandedStorages(id: number): void {
     this.storagesDataSource = this.mapOfIdS.get(id);
   }
 
   getExpandedStat(param: string, id: number) {
     this.currentWHId = id;
-    this.statDataSource$ = this.httpService.getDetailedDataById(param, id, this.startDate, this.endDate);
+    this.statDataSource$ = this.httpService.getDetailedDataByWHId(param, id, this.startDate, this.endDate);
 
   }
 
@@ -137,7 +134,7 @@ export class DataTableComponent implements OnInit {
 
   public updateDates() {
     if (this.currentWHId) {
-      this.statDataSource$ = this.httpService.getDetailedDataById('wh_id', this.currentWHId, this.startDate, this.endDate);
+      this.statDataSource$ = this.httpService.getDetailedDataByWHId('wh_id', this.currentWHId, this.startDate, this.endDate);
     }
   }
 

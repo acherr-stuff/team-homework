@@ -5,11 +5,11 @@ export interface DataItem {
     dt_date?: string
 }
 
-export interface DataItemDetailed {
-    wh_id: number,
-    qty: number,
-    dt_date: string
-}
+// export interface DataItemDetailed {
+//     wh_id: number,
+//     qty: number,
+//     dt_date: string
+// }
 
 export interface GraphItem extends DataItem {
     dt_date: string

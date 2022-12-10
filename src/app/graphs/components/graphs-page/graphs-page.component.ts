@@ -29,9 +29,8 @@ export class GraphsPageComponent implements OnInit {
   destroy$ = this.destroy.asObservable();
   
 
-  id: any;
+  id!: number;
 
-   
   private querySubscription: Subscription;
 
   constructor( public httpService: HttpService,private route: ActivatedRoute) {
@@ -46,7 +45,7 @@ export class GraphsPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.id) {
-      this.httpService.getDetailedDataById("wh_id", this.id).subscribe(val => {
+      this.httpService.getDetailedDataByWHId("wh_id", this.id).subscribe(val => {
         this.graphData = this.httpService.createCharts(val as GraphItem[])
       })
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed, GraphItem} from "../model/data-types";
+import {ChartDataInterface, ChartDatasetsInterface, DataItem, GraphItem} from "../model/data-types";
 import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
 
 @Injectable({
@@ -48,7 +48,7 @@ export class HttpService {
     }
 
 
-    getDetailedDataById(param: string, id: number, startDate?: string, endDate?: string) {
+    getDetailedDataByWHId(param: string, id: number, startDate?: string, endDate?: string) {
         if (startDate && endDate) {
             return this.http.get(`http://${environment.url}:${environment.port}/data_detailed`, {
                 params: new HttpParams().set('wh_id', id).set('dt_date_gte', startDate).set('dt_date_lte', endDate)
@@ -71,7 +71,7 @@ export class HttpService {
 
 
 
-    getDetailedData() {
+    getDetailedData(): void {
         this.http.get(`http://${environment.url}:${environment.port}/data_detailed`)
             .pipe(
                 map(x => JSON.stringify(x)),
@@ -101,7 +101,7 @@ export class HttpService {
         return data;
     }
 
-    createCharts(res: Array<GraphItem>): ChartDataInterface[] 
+    createCharts(res: Array<GraphItem>): ChartDataInterface[]
     { 
             const data: Map<number, ChartDataInterface> = new Map();
             res.forEach((object: GraphItem) => {
