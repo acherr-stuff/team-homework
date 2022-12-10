@@ -52,7 +52,7 @@ export const MY_FORMATS = {
 })
 export class DataTableComponent implements OnInit {
 
-  generalData: DataItem[] = [];
+  //generalData: DataItem[] = [];
     public dataSource = new MatTableDataSource<number>([]);
     public storagesDataSource = new MatTableDataSource<number>([]);
     public statDataSource$: Observable<any> = of([]);
@@ -64,7 +64,8 @@ export class DataTableComponent implements OnInit {
     columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     storagesColumnsToDisplayWithExpand = [...this.storagesColumnsToDisplay, 'expand'];
     expandedOffice!: DataItemDetailed[] | null;
-    expandedStorages!: DataItemDetailed[] | null;
+    //expandedStorages!: DataItemDetailed[] | null;
+    expandedStorages!: number | null;
     expandedStat!: DataItemDetailed[] | null;
 
     currentWHId!: number;
@@ -92,22 +93,16 @@ export class DataTableComponent implements OnInit {
   ) {
     this.httpService.getGeneralData();
     this.sub = this.httpService.dataSubject$.subscribe(val => {
-      this.generalData = val as DataItem[];
       this.mapOfIdS = this.httpService.collectData(val);
       this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
   }
 
   openGraph(id:number) {
-    //window.open()
-    console.log(this.router.url)
     const url = this.router.serializeUrl(
       this.router.createUrlTree([`graphs/${id}`])
     );
-  
     window.open(url, '_blank');
-  
-    //this.router.navigate([`graphs/${id}`])
   }
 
   getExpandedStorages(id: number) {
@@ -120,12 +115,8 @@ export class DataTableComponent implements OnInit {
 
   }
 
-  getExpandedStat1(param: string, id: number, start: string, end: string): Observable<any> {
-   return this.httpService.getDetailedDataById(param, id, start, end);
-  }
-
   clearStorages() {
-    this.expandedStorages = [];
+    this.expandedStorages = null;
   }
 
   clearStat() {
@@ -136,7 +127,6 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    console.log('datatableDestroy')
     this.sub?.unsubscribe();
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed, GraphItem} from "../model/data-types";
 import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
@@ -21,13 +21,14 @@ export class HttpService {
     //Единный метод для получения данных из файла
     getData(detailed: boolean = false) {
         const fileName = (detailed) ? 'data_detailed':'data'; 
-        this.sub = this.http.get(`http://${environment.url}:${environment.port}/${fileName}`)
+        this.sub = this.http.get(`http://${environment.url}:${environment.port}/${fileName}`,
+            )
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
             )
             .subscribe((data) => {
-                console.log('test');
+              //  console.log('test');
                 this.dataSubject$.next(data);
             });
     }
@@ -46,17 +47,21 @@ export class HttpService {
             });
     }
 
+
     getDetailedDataById(param: string, id: number, startDate?: string, endDate?: string) {
-        console.log("get detailed");
         if (startDate && endDate) {
-            return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}&dt_date_gte=${startDate}&dt_date_lte=${endDate}`)
+            return this.http.get(`http://${environment.url}:${environment.port}/data_detailed`, {
+                params: new HttpParams().set('wh_id', id).set('dt_date_gte', startDate).set('dt_date_lte', endDate)
+            })
                 .pipe(
                     map(x => JSON.stringify(x)),
                     map(x => JSON.parse(x)),
                 )
         } else
 
-        return this.http.get(`http://${environment.url}:${environment.port}/data_detailed?${param}=${id}`)
+        return this.http.get(`http://${environment.url}:${environment.port}/data_detailed`, {
+            params: new HttpParams().set('wh_id', id)
+        })
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
@@ -93,7 +98,6 @@ export class HttpService {
                 }
             }
         });
-        console.log(data)
         return data;
     }
 
@@ -128,29 +132,5 @@ export class HttpService {
             });
             return [...data.values()];
         }
-    
-
-    // сollectData(res: Array<DataItem>): Map<number, DataItem[]>
-    // {
-    //     const data: Map<number, DataItem[]> = new Map();
-    //     res.forEach((object: DataItem) => {
-    //
-    //         if (!data.has(object.office_id)) {
-    //             data.set(object.office_id, [object]);
-    //
-    //         } else {
-    //             const graphData = data.get(object.office_id);
-    //             if (graphData) {
-    //                 graphData.push(object)
-    //             }
-    //         }
-    //     });
-    //     console.log("map data", data)
-    //     return data;
-    // }
-
-    // collectExpandedData(res: Array<DataItemDetailed>): Map<number, DataItemDetailed> {
-    //     const data: Map<number, DataItem[]> = new Map();
-    // }
 
 }
