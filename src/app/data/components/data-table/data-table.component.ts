@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 import {
   DateAdapter,
   MAT_DATE_LOCALE,
-  MAT_DATE_FORMATS
+  MAT_DATE_FORMATS,
+  ThemePalette
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
 import {s} from "chart.js/dist/chunks/helpers.core";
-import { dataLogicService } from 'src/app/services/data-logic.service';
+import { DataLogicService } from 'src/app/services/data-logic.service';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 export const MY_FORMATS = {
   parse: {
@@ -87,7 +89,7 @@ export class DataTableComponent implements OnInit {
 
   constructor(
       private httpService: HttpService,
-      private dataLogicService: dataLogicService,
+      public dataLogicService: DataLogicService,
       private readonly router: Router,
   ) {
     this.httpService.getGeneralData();

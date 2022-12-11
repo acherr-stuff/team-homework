@@ -14,7 +14,7 @@ import {ChartDataInterface } from '../../../model/data-types';
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
-  styleUrls: ['./graph.component.scss']
+  styleUrls: ['./graph.component.scss'],
 })
 export class GraphComponent {
 

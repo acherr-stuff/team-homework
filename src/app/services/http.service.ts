@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed} from "../model/data-types";
-import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
+import { DataItemDetailed} from "../model/data-types";
+import {BehaviorSubject, map, Observable, share, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,7 @@ export class HttpService {
                 .pipe(
                     map(x => JSON.stringify(x)),
                     map(x => JSON.parse(x)),
+                    share()
                 )
         } else
 
@@ -57,6 +58,7 @@ export class HttpService {
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
+                share()
             )
 
     }

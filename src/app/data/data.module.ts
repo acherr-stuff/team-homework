@@ -11,6 +11,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     MatInputModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class DataModule { }
