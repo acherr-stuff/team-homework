@@ -9,6 +9,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import {HttpService} from "./services/http.service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { dataLogicService } from './services/data-logic.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatIconModule
   ],
-  providers: [HttpService],
+  providers: [HttpService, dataLogicService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,6 +14,7 @@ import {
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DatePipe } from "@angular/common";
 import {s} from "chart.js/dist/chunks/helpers.core";
+import { dataLogicService } from 'src/app/services/data-logic.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -86,11 +87,12 @@ export class DataTableComponent implements OnInit {
 
   constructor(
       private httpService: HttpService,
-      private readonly router: Router
+      private dataLogicService: dataLogicService,
+      private readonly router: Router,
   ) {
     this.httpService.getGeneralData();
     this.sub = this.httpService.dataSubject$.subscribe(val => {
-      this.mapOfIdS = this.httpService.collectData(val);
+      this.mapOfIdS = this.dataLogicService.collectData(val);
       this.dataSource.data = Array.from(this.mapOfIdS.keys());
     });
   }

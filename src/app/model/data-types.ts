@@ -11,7 +11,7 @@ export interface DataItem {
 //     dt_date: string
 // }
 
-export interface GraphItem extends DataItem {
+export interface DataItemDetailed extends DataItem {
     dt_date: string
 }
 
