@@ -3,16 +3,17 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { fromEvent, Subject, Subscription, takeUntil } from 'rxjs';
-import { dataLogicService } from 'src/app/services/data-logic.service';
+import { GraphLogicService } from 'src/app/services/graph-logic.service';
 //import { GraphItem, ChartDataInterface, ChartDatasetsInterface } from 'src/app/model/data-types';
-import { ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed } from '../../../model/data-types';
+import { ChartDataInterface, DataItemDetailed } from '../../../model/data-types';
 //import { HttpService } from 'src/app/services/http.service';
 import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-graphs-page',
   templateUrl: './graphs-page.component.html',
-  styleUrls: ['./graphs-page.component.scss']
+  styleUrls: ['./graphs-page.component.scss'],
+  providers: [GraphLogicService]
 })
 export class GraphsPageComponent implements OnInit {
 
@@ -34,7 +35,7 @@ export class GraphsPageComponent implements OnInit {
 
   private querySubscription: Subscription;
 
-  constructor( public httpService: HttpService,public dataLogicService: dataLogicService ,private route: ActivatedRoute) {
+  constructor( public httpService: HttpService,public graphLogicService: GraphLogicService ,private route: ActivatedRoute) {
 
       this.querySubscription = route.queryParams.subscribe(
           (queryParam: any) => {
@@ -47,13 +48,13 @@ export class GraphsPageComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.httpService.getDetailedDataByWHId("wh_id", this.id).subscribe(val => {
-        this.graphData = this.dataLogicService.createCharts(val as DataItemDetailed[])
+        this.graphData = this.graphLogicService.createCharts(val as DataItemDetailed[])
       })
     }
     else {
     this.httpService.getDetailedData();
      this.sub = this.httpService.dataSubject$.subscribe(val => {
-       this.graphData = this.dataLogicService.createCharts(val as DataItemDetailed[]);
+       this.graphData = this.graphLogicService.createCharts(val as DataItemDetailed[]);
      });
     }
   }
