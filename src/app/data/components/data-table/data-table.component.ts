@@ -3,7 +3,7 @@ import {DataItem} from "../../../model/data-types";
 import {HttpService} from "../../../services/http.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Observable, of, Subscription} from 'rxjs';
+import {Observable, of, publish, refCount, share, Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { Router } from '@angular/router';
 import {
@@ -110,7 +110,10 @@ export class DataTableComponent implements OnInit {
 
   getExpandedStat(param: string, id: number) {
     this.currentWHId = id;
-    this.statDataSource$ = this.httpService.getDetailedDataByWHId(param, id, this.startDate, this.endDate);
+    this.statDataSource$ = this.httpService.getDetailedDataByWHId(param, id, this.startDate, this.endDate).pipe(
+        publish(),
+        refCount()
+    );
 
   }
 
@@ -136,7 +139,10 @@ export class DataTableComponent implements OnInit {
 
   public updateDates() {
     if (this.currentWHId) {
-      this.statDataSource$ = this.httpService.getDetailedDataByWHId('wh_id', this.currentWHId, this.startDate, this.endDate);
+      this.statDataSource$ = this.httpService.getDetailedDataByWHId('wh_id', this.currentWHId, this.startDate, this.endDate).pipe(
+          publish(),
+          refCount()
+      );
     }
   }
 
