@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import { DataItemDetailed} from "../model/data-types";
-import {BehaviorSubject, map, Observable, share, Subscription} from "rxjs";
+import {ChartDataInterface, ChartDatasetsInterface, DataItem, DataItemDetailed} from "../model/data-types";
+import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -44,14 +44,8 @@ export class HttpService {
 
         let params = new HttpParams().set('wh_id', id)
         if (startDate && endDate) {
-            return this.http.get(`http://${environment.url}:${environment.port}/data_detailed`, {
-                params: new HttpParams().set('wh_id', id).set('dt_date_gte', startDate).set('dt_date_lte', endDate)
-            })
-                .pipe(
-                    map(x => JSON.stringify(x)),
-                    map(x => JSON.parse(x)),
-                )
-        } else
+            params.set('dt_date_gte', startDate).set('dt_date_lte', endDate);
+        }
 
         return this.http.get(`http://${environment.url}:${environment.port}/data_detailed`, {
             params: params
@@ -59,7 +53,6 @@ export class HttpService {
             .pipe(
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
-                share()
             )
 
     }
