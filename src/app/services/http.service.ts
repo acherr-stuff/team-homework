@@ -10,7 +10,7 @@ import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
 export class HttpService {
 
 
-    dataSubject$ = new BehaviorSubject([]);
+    dataSubject$ = new BehaviorSubject<DataItem[]>([]);
     sub?: Subscription;
 
     constructor(
@@ -34,7 +34,7 @@ export class HttpService {
                 map(x => JSON.stringify(x)),
                 map(x => JSON.parse(x)),
             )
-            .subscribe((data) => {
+            .subscribe((data: DataItem[]) => {
                 this.dataSubject$.next(data);
             });
     }

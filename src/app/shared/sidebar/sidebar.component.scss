@@ -1,68 +1,71 @@
-:host{
-    width: auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    justify-content: flex-start;
+:host {
+  width: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  justify-content: flex-start;
 }
 
 
-.bar-head{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: 25px;
-    padding: 4px;   
+.bar-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 25px;
+  padding: 4px;
 
-    .menu{
-        width: 40px;
-        height: 40px;
-        font-size: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:hover{
-            background-color: rgb(175, 175, 175,20%);
-            border-radius: 100%;
-            cursor: pointer;
-        }
-    }
-}
-
-.link{
+  .menu {
+    width: 40px;
+    height: 40px;
+    font-size: 35px;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap:5px;
-    min-width: 50px;
-    width: 250px;
-    height: 60px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 18px;
 
-    mat-icon{
-        width: 40px;
-        height: 40px;
-        font-size: 40px;
+    &:hover {
+      background-color: rgb(175, 175, 175, 20%);
+      border-radius: 100%;
+      cursor: pointer;
     }
-
-    &.active{
-        mat-icon{
-            color: #FF9416;
-        }
-        span{
-            font-weight: 500;
-        }
-    }
-    &.active,&:hover{
-        background-color: rgb(175, 175, 175,20%);
-    }
+  }
 }
 
-.linkShort{
-    width: 50px;
-    flex-direction: column;
+.link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 50px;
+  width: 250px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 18px;
+
+  mat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+  }
+
+  &.active {
+    mat-icon {
+      color: #FF9416;
+    }
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  &.active, &:hover {
+    background-color: rgb(175, 175, 175, 20%);
+  }
+}
+
+.link-short {
+  width: 50px;
+  flex-direction: column;
 }

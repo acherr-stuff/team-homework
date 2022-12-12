@@ -5,12 +5,6 @@ export interface DataItem {
     dt_date?: string
 }
 
-// export interface DataItemDetailed {
-//     wh_id: number,
-//     qty: number,
-//     dt_date: string
-// }
-
 export interface DataItemDetailed extends DataItem {
     dt_date: string
 }
@@ -29,4 +23,10 @@ export interface ChartDatasetsInterface {
 
     [key: string]: any;
 
+}
+
+export interface MenuLink {
+    name: string,
+    link: string,
+    icon: string
 }

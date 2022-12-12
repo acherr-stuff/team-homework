@@ -1,26 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MenuLink} from "../../model/data-types";
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
 
-  menuStatus = true;
+    menuStatus = true;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
-  linksArr = [
-    { name: 'data', link: '/data', icon: 'table_chart' },
-    { name: 'graphs', link: './graphs', icon: 'show_chart' },
-];
+    linksArr: MenuLink[] = [
+        {name: 'data', link: '/data', icon: 'table_chart'},
+        {name: 'graphs', link: './graphs', icon: 'show_chart'},
+    ];
 
-changeMenuStatus() {
-  this.menuStatus = !this.menuStatus;
-}
+    changeMenuStatus() {
+        this.menuStatus = !this.menuStatus;
+    }
 
 }
